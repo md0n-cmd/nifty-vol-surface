@@ -63,3 +63,61 @@ def plot_surface(surface_df, fits: dict, out_dir: Path) -> list[Path]:
         written.append(out_path)
 
     return written
+
+
+def plot_svi_params(fits: dict, out_path: Path) -> Path:
+    """Small multiples comparing a, b, rho, m, sigma across every fitted
+    (underlying, expiry) slice, colored by underlying identity -- a
+    calibration sanity check, e.g. to spot one expiry's rho sign or
+    magnitude diverging from the rest.
+    """
+    from .svi import PARAM_NAMES
+
+    out_path = Path(out_path)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    expiries = sorted({expiry for _, expiry in fits})
+    underlyings = sorted({underlying for underlying, _ in fits})
+    colors = {underlyings[0]: MARKET_COLOR}
+    if len(underlyings) > 1:
+        colors[underlyings[1]] = FIT_COLOR
+
+    fig, axes = plt.subplots(1, len(PARAM_NAMES), figsize=(4 * len(PARAM_NAMES), 4.5),
+                              facecolor=SURFACE)
+    x_pos = {expiry: i for i, expiry in enumerate(expiries)}
+
+    for ax, param in zip(axes, PARAM_NAMES):
+        ax.set_facecolor(SURFACE)
+        for underlying in underlyings:
+            xs, ys = [], []
+            for expiry in expiries:
+                fit = fits.get((underlying, expiry))
+                if fit is None:
+                    continue
+                xs.append(x_pos[expiry])
+                ys.append(getattr(fit, param))
+            ax.plot(xs, ys, marker="o", ms=7, lw=1.5, color=colors[underlying],
+                    label=underlying, zorder=3)
+
+        if param == "rho":
+            ax.axhline(0.0, color=AXIS_COLOR, lw=1, linestyle="--", zorder=1)
+
+        ax.set_title(param, color=PRIMARY_INK, fontsize=12)
+        ax.set_xticks(range(len(expiries)))
+        ax.set_xticklabels(expiries, rotation=30, ha="right", color=MUTED_INK, fontsize=8)
+        ax.tick_params(colors=MUTED_INK)
+        for spine in ("top", "right"):
+            ax.spines[spine].set_visible(False)
+        for spine in ("left", "bottom"):
+            ax.spines[spine].set_color(AXIS_COLOR)
+        ax.grid(True, axis="y", color=GRID_COLOR, linewidth=0.8)
+        ax.set_axisbelow(True)
+
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="upper center", ncol=len(underlyings),
+               frameon=False, labelcolor=PRIMARY_INK, bbox_to_anchor=(0.5, 1.06))
+
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    return out_path

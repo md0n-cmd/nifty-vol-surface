@@ -21,6 +21,8 @@ from scipy.optimize import least_squares
 PARAM_NAMES = ("a", "b", "rho", "m", "sigma")
 MIN_POINTS = 5
 ARB_PENALTY_WEIGHT = 50.0
+MAD_SCALE = 1.4826  # scales MAD to a normal-consistent std-dev estimate
+MAD_THRESHOLD = 3.0
 
 
 @dataclass
@@ -87,13 +89,43 @@ def fit_svi_slice(k, w, arb_weight: float = ARB_PENALTY_WEIGHT) -> SVIFit:
     return SVIFit(a=a, b=b, rho=rho, m=m, sigma=sigma, n_points=len(k), cost=float(result.cost))
 
 
-def fit_all_expiries(surface_df) -> dict:
+def fit_svi_slice_robust(k, w, arb_weight: float = ARB_PENALTY_WEIGHT,
+                          mad_threshold: float = MAD_THRESHOLD) -> SVIFit:
+    """Two-pass robust SVI fit: fit once, compute residuals in total-variance
+    space (w_market - w_fit), drop points more than mad_threshold scaled-MADs
+    from the median residual, and refit on the survivors.
+
+    Falls back to the first-pass fit if there are no outliers by that
+    threshold, or if dropping them would leave fewer than MIN_POINTS points
+    (refitting on a handful of survivors is worse than keeping the wings).
+    """
+    first = fit_svi_slice(k, w, arb_weight=arb_weight)
+
+    k = np.asarray(k, dtype=float)
+    w = np.asarray(w, dtype=float)
+    resid = w - first.w(k)
+    med = np.median(resid)
+    scaled_mad = MAD_SCALE * np.median(np.abs(resid - med))
+
+    if scaled_mad == 0:
+        return first
+
+    keep = np.abs(resid - med) <= mad_threshold * scaled_mad
+    if keep.all() or keep.sum() < MIN_POINTS:
+        return first
+
+    return fit_svi_slice(k[keep], w[keep], arb_weight=arb_weight)
+
+
+def fit_all_expiries(surface_df, robust: bool = False) -> dict:
     """Fit one SVI slice per (underlying, expiry) group. Returns
-    {(underlying, expiry): SVIFit}; groups with too few points are skipped."""
+    {(underlying, expiry): SVIFit}; groups with too few points are skipped.
+    Pass robust=True to use fit_svi_slice_robust's outlier-trimmed refit."""
+    fit_fn = fit_svi_slice_robust if robust else fit_svi_slice
     fits = {}
     for key, grp in surface_df.groupby(["underlying", "expiry"]):
         try:
-            fits[key] = fit_svi_slice(grp["k"].to_numpy(), grp["w"].to_numpy())
+            fits[key] = fit_fn(grp["k"].to_numpy(), grp["w"].to_numpy())
         except ValueError:
             continue
     return fits
