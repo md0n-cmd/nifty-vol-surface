@@ -2,10 +2,9 @@
 
 A deep in-the-money quote prices almost entirely off intrinsic value, so a
 normal bid/ask quoting error maps to a large implied-vol error on Black-76
-inversion (this is what flipped NIFTY 2026-09-29's fitted rho sign when its
-13 ITM puts were included). OTM legs price mostly off time value and are
-the standard convention for building a vol surface -- this drops the
-redundant, noisier ITM side at every strike.
+inversion, which distorts the fitted smile. OTM legs price mostly off time
+value and are the standard convention for building a vol surface -- this
+drops the redundant, noisier ITM side at every strike.
 """
 from __future__ import annotations
 

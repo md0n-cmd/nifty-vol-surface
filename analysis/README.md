@@ -24,10 +24,22 @@ PNGs byte for byte.
 | 6 | `python analysis/skew_robustness.py` | `results/skew_check.csv`, `data/` | `results/skew_robustness.csv` |
 | 7 | `python analysis/skew_matched_dte.py` | `data/` | `results/skew_matched_dte.csv` |
 | 8 | `python analysis/skew_1021_check.py` | `data/` | `results/skew_1021_check.csv` |
+| 9 | `python analysis/mc_validation.py` (fixed seed; recalibration check is skipped without `data/`) | optional `data/date=2026-09-25/` | `docs/results/mc_validation.csv` |
+| 10 | `python analysis/heston_provenance.py` (BANKNIFTY 10-27 on 2026-09-25, 11:00 to 11:27) | `data/date=2026-09-25/`, `results/date=2026-09-25_svi_params.json` | `docs/results/heston_fragility.csv`, `docs/results/provenance_parity_svi.csv` |
+| 11 | `python analysis/barrier_check.py` (20 seeds, several minutes; run after step 10) | `data/date=2026-09-25/` (the 11:06:02 BANKNIFTY 10-27 file), `docs/results/heston_fragility.csv` | `docs/results/barrier_check.csv`, `docs/results/param_dependence.csv` |
+| 12 | `python analysis/bound_recount.py` | `docs/results/daily_fits.csv` (a copy of step 1's `results/daily_fits.csv`) | `docs/results/bound_recount.csv` (and stdout) |
+| 13 | `python analysis/post_rmse_check.py` | `data/date=2026-09-25/` (the 11:06:02 BANKNIFTY 09-29 and 10-27 files) | `docs/results/post_rmse_check.csv` |
 
 Steps 1-3 live at the repo root and are tested modules (`tests/`); steps 4-8
 are scripts. Steps 4-8 are independent of each other once step 3 has run
 (7 and 8 read only `data/`). Scripts print their summary tables to stdout.
+
+Steps 9-13 write to `docs/results/`. Run order for the last three: step 11
+(`barrier_check.py`) reads `docs/results/heston_fragility.csv`, so it must come after
+step 10. Which of them need `data/`: steps 11 and 13 do (`barrier_check.py` loads the
+11:06:02 snapshot for its objective comparison, `post_rmse_check.py` calibrates on the
+snapshots); step 12 (`bound_recount.py`) runs from the committed CSV alone. Step 9 runs
+without `data/` but skips its recalibration check.
 
 ## Notes
 

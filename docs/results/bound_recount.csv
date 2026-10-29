@@ -1,0 +1,3 @@
+tolerance,slices,any_bound_hit,v0,kappa,theta,xi,rho
+absolute 1e-6 (daily_fits.py),44,26,5,18,2,8,0
+1% relative,44,33,5,26,2,8,0

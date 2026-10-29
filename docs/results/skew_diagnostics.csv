@@ -1,0 +1,53 @@
+section,underlying,name,value,ci_lo,ci_hi,n,note,bucket,p_spearman,p_perm,date,extra
+exponent,BANKNIFTY,beta_log_dte,-0.06972947718331012,-0.18743563963795745,0.060108931044040484,5000.0,"date-cluster bootstrap (resample 12 dates), percentile 95%",,,,,
+exponent,NIFTY,beta_log_dte,-0.7233745982037512,-0.9938604887033237,-0.34226397073757925,5000.0,"date-cluster bootstrap (resample 12 dates), percentile 95%",,,,,
+exponent_naive,BANKNIFTY,beta_log_dte,-0.06972947718331007,-0.1699406261033896,0.030481671736769467,24.0,slice-level OLS CI (ignores date clustering),,,,,
+exponent_naive,NIFTY,beta_log_dte,-0.7233745982037507,-1.3021592943550555,-0.14458990205244593,20.0,slice-level OLS CI (ignores date clustering),,,,,
+resid_drift,BANKNIFTY,spearman_rho,-0.3216783216783217,,,12.0,"resid sd=0.223; perm=5000 shuffles of date order, two-sided |rho|",near,0.30790987618065263,0.3139372125574885,,
+resid_drift,BANKNIFTY,spearman_rho,0.20979020979020982,,,12.0,"resid sd=0.061; perm=5000 shuffles of date order, two-sided |rho|",next,0.512840943181826,0.5040991801639672,,
+resid_drift,NIFTY,spearman_rho,-0.07142857142857144,,,8.0,"resid sd=0.576; perm=5000 shuffles of date order, two-sided |rho|",near,0.8665262706759088,0.8762247550489902,,
+resid_drift,NIFTY,spearman_rho,-0.7972027972027973,,,12.0,"resid sd=0.533; perm=5000 shuffles of date order, two-sided |rho|",next,0.0019003677255282697,0.002599480103979204,,
+level,BANKNIFTY,atm_iv_spot,0.1337485876291411,,,,expiry=2026-09-29 dte=5 ts=14:30:02,near,,,2026-09-24,55426.5
+level,BANKNIFTY,atm_iv_spot,0.1396385886106647,,,,expiry=2026-10-27 dte=33 ts=14:30:02,next,,,2026-09-24,55424.25
+level,NIFTY,atm_iv_spot,0.1166393496953658,,,,expiry=2026-09-29 dte=5 ts=14:30:02,near,,,2026-09-24,23062.2
+level,NIFTY,atm_iv_spot,0.1205084210994455,,,,expiry=2026-10-06 dte=12 ts=14:30:02,next,,,2026-09-24,23063.6
+level,BANKNIFTY,atm_iv_spot,0.1414910185480037,,,,expiry=2026-10-27 dte=27 ts=14:30:02,near,,,2026-09-30,54776.4
+level,BANKNIFTY,atm_iv_spot,0.1381511007762802,,,,expiry=2026-11-23 dte=54 ts=14:30:02,next,,,2026-09-30,54768.85
+level,NIFTY,atm_iv_spot,0.1178886723889524,,,,expiry=2026-10-06 dte=6 ts=14:30:02,near,,,2026-09-30,22643.35
+level,NIFTY,atm_iv_spot,0.1200740791889568,,,,expiry=2026-10-13 dte=13 ts=14:30:02,next,,,2026-09-30,22641.8
+level,BANKNIFTY,atm_iv_spot,0.1577893129822717,,,,expiry=2026-10-27 dte=26 ts=14:30:01,near,,,2026-10-01,54285.6
+level,BANKNIFTY,atm_iv_spot,0.1499210878542358,,,,expiry=2026-11-23 dte=53 ts=14:30:01,next,,,2026-10-01,54288.5
+level,NIFTY,atm_iv_spot,0.1366368778995424,,,,expiry=2026-10-06 dte=5 ts=14:30:01,near,,,2026-10-01,22311.2
+level,NIFTY,atm_iv_spot,0.1418900940432291,,,,expiry=2026-10-13 dte=12 ts=14:30:01,next,,,2026-10-01,22313.65
+level,BANKNIFTY,atm_iv_spot,0.1550588984309845,,,,expiry=2026-10-27 dte=22 ts=14:30:02,near,,,2026-10-05,54796.2
+level,BANKNIFTY,atm_iv_spot,0.1457927919592349,,,,expiry=2026-11-23 dte=49 ts=14:30:02,next,,,2026-10-05,54794.0
+level,NIFTY,atm_iv_spot,0.1319878666625413,,,,expiry=2026-10-13 dte=8 ts=14:30:02,next,,,2026-10-05,22557.35
+level,BANKNIFTY,atm_iv_spot,0.1422383268355801,,,,expiry=2026-10-27 dte=21 ts=14:30:03,near,,,2026-10-06,55041.05
+level,BANKNIFTY,atm_iv_spot,0.1377969947084707,,,,expiry=2026-11-23 dte=48 ts=14:30:03,next,,,2026-10-06,55041.9
+level,NIFTY,atm_iv_spot,0.1033679575712318,,,,expiry=2026-10-13 dte=7 ts=14:30:03,next,,,2026-10-06,22690.6
+level,BANKNIFTY,atm_iv_spot,0.1395933000852844,,,,expiry=2026-10-27 dte=18 ts=14:30:02,near,,,2026-10-09,55347.8
+level,BANKNIFTY,atm_iv_spot,0.1375031125759933,,,,expiry=2026-11-23 dte=45 ts=14:30:02,next,,,2026-10-09,55344.9
+level,NIFTY,atm_iv_spot,0.1226590372034866,,,,expiry=2026-10-13 dte=4 ts=14:30:02,near,,,2026-10-09,22550.6
+level,NIFTY,atm_iv_spot,0.111090592731119,,,,expiry=2026-10-19 dte=10 ts=14:30:02,next,,,2026-10-09,22549.4
+level,BANKNIFTY,atm_iv_spot,0.1524359213207841,,,,expiry=2026-10-27 dte=15 ts=14:30:03,near,,,2026-10-12,54774.35
+level,BANKNIFTY,atm_iv_spot,0.1476275646097528,,,,expiry=2026-11-23 dte=42 ts=14:30:03,next,,,2026-10-12,54772.25
+level,NIFTY,atm_iv_spot,0.1270804794802873,,,,expiry=2026-10-19 dte=7 ts=14:30:03,next,,,2026-10-12,22326.45
+level,BANKNIFTY,atm_iv_spot,0.1370724935981624,,,,expiry=2026-10-27 dte=13 ts=14:30:02,near,,,2026-10-14,55286.9
+level,BANKNIFTY,atm_iv_spot,0.1384770457282205,,,,expiry=2026-11-23 dte=40 ts=14:30:02,next,,,2026-10-14,55293.35
+level,NIFTY,atm_iv_spot,0.1066579054318919,,,,expiry=2026-10-19 dte=5 ts=14:30:02,near,,,2026-10-14,22628.15
+level,NIFTY,atm_iv_spot,0.1259880278748262,,,,expiry=2026-10-27 dte=13 ts=14:30:02,next,,,2026-10-14,22628.45
+level,BANKNIFTY,atm_iv_spot,0.1329596618563414,,,,expiry=2026-10-27 dte=12 ts=14:30:02,near,,,2026-10-15,55729.2
+level,BANKNIFTY,atm_iv_spot,0.1338346088322527,,,,expiry=2026-11-23 dte=39 ts=14:30:02,next,,,2026-10-15,55733.0
+level,NIFTY,atm_iv_spot,0.1285571143422216,,,,expiry=2026-10-19 dte=4 ts=14:30:02,near,,,2026-10-15,23000.5
+level,NIFTY,atm_iv_spot,0.1125186400677703,,,,expiry=2026-10-27 dte=12 ts=14:30:02,next,,,2026-10-15,23001.55
+level,BANKNIFTY,atm_iv_spot,0.1254509133417477,,,,expiry=2026-10-27 dte=11 ts=14:30:03,near,,,2026-10-16,55722.25
+level,BANKNIFTY,atm_iv_spot,0.1283706328868163,,,,expiry=2026-11-23 dte=38 ts=14:30:03,next,,,2026-10-16,55722.25
+level,NIFTY,atm_iv_spot,0.1441091546329156,,,,expiry=2026-10-19 dte=3 ts=14:30:03,near,,,2026-10-16,23086.45
+level,NIFTY,atm_iv_spot,0.0994262643273637,,,,expiry=2026-10-27 dte=11 ts=14:30:03,next,,,2026-10-16,23087.3
+level,BANKNIFTY,atm_iv_spot,0.1258263616860125,,,,expiry=2026-10-27 dte=8 ts=14:30:03,near,,,2026-10-19,55454.45
+level,BANKNIFTY,atm_iv_spot,0.134976871210206,,,,expiry=2026-11-23 dte=35 ts=14:30:03,next,,,2026-10-19,55449.05
+level,NIFTY,atm_iv_spot,0.1028846850749267,,,,expiry=2026-10-27 dte=8 ts=14:30:03,next,,,2026-10-19,22856.1
+level,BANKNIFTY,atm_iv_spot,0.1269000922736215,,,,expiry=2026-10-27 dte=6 ts=14:30:02,near,,,2026-10-21,54765.9
+level,BANKNIFTY,atm_iv_spot,0.1466612592477706,,,,expiry=2026-11-23 dte=33 ts=14:30:02,next,,,2026-10-21,54764.55
+level,NIFTY,atm_iv_spot,0.1534423776976968,,,,expiry=2026-10-27 dte=6 ts=14:30:02,near,,,2026-10-21,22672.75
+level,NIFTY,atm_iv_spot,0.1449538070783474,,,,expiry=2026-11-03 dte=13 ts=14:30:02,next,,,2026-10-21,22673.3
