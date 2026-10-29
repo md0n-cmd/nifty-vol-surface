@@ -99,3 +99,11 @@ def test_fit_all_expiries_end_to_end(known_svi):
     fit = fits[key]
     assert isinstance(fit, SVIFit)
     assert fit.n_points == len(surface)
+
+
+def test_a_lower_loosens_hard_bound():
+    from vol_surface.svi import svi_bounds
+    k = np.linspace(-0.2, 0.2, 9)
+    w = np.full_like(k, 0.01)
+    assert svi_bounds(k, w)[0][0] == 0.0
+    assert svi_bounds(k, w, a_lower=-0.05)[0][0] == -0.05

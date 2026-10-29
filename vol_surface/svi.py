@@ -21,6 +21,7 @@ from scipy.optimize import least_squares
 PARAM_NAMES = ("a", "b", "rho", "m", "sigma")
 MIN_POINTS = 5
 ARB_PENALTY_WEIGHT = 50.0
+A_LOWER = 0.0  # hard box bound on SVI's `a`; the soft penalty still enforces min w >= 0
 MAD_SCALE = 1.4826  # scales MAD to a normal-consistent std-dev estimate
 MAD_THRESHOLD = 3.0
 
@@ -64,7 +65,15 @@ def _residuals(params, k, w, arb_weight):
     return np.concatenate([resid, penalties])
 
 
-def fit_svi_slice(k, w, arb_weight: float = ARB_PENALTY_WEIGHT) -> SVIFit:
+def svi_bounds(k, w, a_lower: float = A_LOWER):
+    """Box bounds (lower, upper) used by fit_svi_slice for these data."""
+    lower = [a_lower, 0.0, -0.999, k.min() - 1.0, 1e-4]
+    upper = [w.max() * 4 + 1e-6, 10.0, 0.999, k.max() + 1.0, 5.0]
+    return lower, upper
+
+
+def fit_svi_slice(k, w, arb_weight: float = ARB_PENALTY_WEIGHT,
+                   a_lower: float = A_LOWER) -> SVIFit:
     """Fit one SVI slice to (k, w) points. Raises ValueError if there are
     fewer than MIN_POINTS quotes."""
     k = np.asarray(k, dtype=float)
@@ -79,8 +88,7 @@ def fit_svi_slice(k, w, arb_weight: float = ARB_PENALTY_WEIGHT) -> SVIFit:
     sigma0 = max(float(k.std()), 0.1)
     x0 = [a0, b0, rho0, m0, sigma0]
 
-    lower = [0.0, 0.0, -0.999, k.min() - 1.0, 1e-4]
-    upper = [w.max() * 4 + 1e-6, 10.0, 0.999, k.max() + 1.0, 5.0]
+    lower, upper = svi_bounds(k, w, a_lower)
 
     result = least_squares(
         _residuals, x0, args=(k, w, arb_weight), bounds=(lower, upper), method="trf",
