@@ -171,7 +171,11 @@ bootstrap 95% CI resampling quotes [`skew_check.py`]. The default window is
 3. **Among the six NIFTY "next" slices at 12–13 DTE, skew on 10-21 was much flatter
    than on the other five, cause unknown.** The |k| ≤ 0.02 skew is −0.153 on 10-21
    against −0.401 to −0.526 on the others, and at |k| ≤ 0.04 it is −0.194 against
-   −0.377 to −0.481 [`docs/results/skew_matched_dte.csv`]. **This claim rests on
+   −0.377 to −0.481 [`docs/results/skew_matched_dte.csv`]. On the default window, the NIFTY "next" slices on 10-16 (DTE 11) and
+   10-19 (DTE 8; 7 quotes in the window, fewer than 8) are also flatter than the early dates, with market skew −0.238 (CI −0.331 to
+   −0.091) and −0.182 (CI −0.207 to −0.144), against −0.480, −0.447 and −0.568 on 09-24, 09-30 and 10-01
+   [`docs/results/skew_check.csv`]; but they are outside the 12–13 DTE matched set, they were not tested separately, and no
+   drift is claimed. **This claim rests on
    10-21 alone**, a date on which the collector log shows subscription errors (806)
    until 11:42 and the first good snapshot at 11:45 (section 1). The 14:30 snapshot
    is after collection resumed, and I cannot say whether the lapse is related.

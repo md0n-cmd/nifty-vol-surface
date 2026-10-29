@@ -6,6 +6,10 @@ a barrier with QE Monte Carlo, and check what the market skew says. Full write-u
 **[docs/WRITEUP.md](docs/WRITEUP.md)**. The aggregate result CSVs and two figures it
 cites are in [docs/results/](docs/results/).
 
+![Market-implied ATM skew per date](docs/results/skew_over_time.png)
+
+*Market-implied ATM skew per date, 14:30 snapshot. Negative on all 44 slices. NIFTY points are labelled with days to expiry; points mix expiries and maturities, and error bars capture quote scatter only.*
+
 ## Results (12 fitted dates, 2026-09-24 to 2026-10-21; details and sources in the write-up)
 
 - Market-implied ATM skew was negative on all 44 slices.
