@@ -19,6 +19,9 @@ from vol_surface.implied_vol import attach_iv_surface
 from vol_surface.otm import select_otm
 from vol_surface.svi import PARAM_NAMES as S_PARAMS, fit_svi_slice, svi_bounds
 
+# Hard-coded from analysis/date_audit.py (STALE flag): spot was frozen across
+# all 125 snapshots on these days, i.e. stale chains from a closed market.
+# Re-run the audit if new data is collected.
 STALE_DATES = {"2026-10-02", "2026-10-20"}
 TARGET = pd.Timedelta(hours=14, minutes=30)
 MAX_GAP = pd.Timedelta(minutes=15)
